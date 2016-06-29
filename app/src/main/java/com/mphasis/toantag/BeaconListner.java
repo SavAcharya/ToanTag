@@ -128,7 +128,8 @@ public class BeaconListner extends Service {
                         .setContentText("Something interesting happened");
         int NOTIFICATION_ID = 12345;
 
-        Intent targetIntent = new Intent(this, MyFavoriteActivity.class);
+        Intent targetIntent = new Intent(this, HomeActtivity.class);
+
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(contentIntent);
         NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
