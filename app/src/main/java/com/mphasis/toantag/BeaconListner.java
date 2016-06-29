@@ -1,11 +1,13 @@
 package com.mphasis.toantag;
 
-import android.app.ProgressDialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -57,22 +59,9 @@ public class BeaconListner extends Service {
             mSoundRecorder.setOnDataFoundListener(new SoundRecorder.OnDataFoundListener() {
                 @Override
                 public void onDataFound(final String data, final int from, final boolean duplicated, final short soundTagVolume) {
-                   //TODO send data to ui
-                    switch (data){
-                        case AppConstant.BECAN_REGISTER:
-                            requestServerData(AppConstant.BECAN_REGISTER);
-                            break;
-                        case AppConstant.BECAN_1:
-                            requestServerData(AppConstant.BECAN_1);
-                            break;
-                        case AppConstant.BECAN_2:
-                            requestServerData(AppConstant.BECAN_2);
+                   //TODO once becan detected request for server data
 
-                            break;
-
-
-                    }
-
+                    requestServerData(data);
 
                 }
                 @Override
@@ -86,10 +75,10 @@ public class BeaconListner extends Service {
         }
     };
 
-    private void requestServerData(String becanID) {
+    private void requestServerData(final String becanID) {
         // Tag used to cancel the request
         String  tag_string_req = "string_req";
-
+        final String mBecanId=becanID;
         String url = AppController.getPreference(context,AppConstant.IP)+":"+AppController.getPreference(context,AppConstant.PORT)+
                 AppConstant.BASE_URL+AppConstant.USER_ID+becanID;
 
@@ -101,7 +90,20 @@ public class BeaconListner extends Service {
             @Override
             public void onResponse(String response) {
                 Log.d(TAG, response.toString());
+                switch (mBecanId){
+                    case AppConstant.BECAN_REGISTER:
+                       showNotification(response);
+                        break;
+                    case AppConstant.BECAN_1:
 
+                        break;
+                    case AppConstant.BECAN_2:
+
+
+                        break;
+
+
+                }
 
             }
         }, new Response.ErrorListener() {
@@ -117,6 +119,24 @@ public class BeaconListner extends Service {
         AppController.getInstance().addToRequestQueue(strReq, tag_string_req);
     }
 
+    private void showNotification(String response) {
+
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle("My Notification Title")
+                        .setContentText("Something interesting happened");
+        int NOTIFICATION_ID = 12345;
+
+        Intent targetIntent = new Intent(this, MyFavoriteActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(contentIntent);
+        NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nManager.notify(NOTIFICATION_ID, builder.build());
+
+
+    }
+
     private void DisplayLoggingInfo() {
         Log.d(TAG, "entered DisplayLoggingInfo");
 
@@ -129,4 +149,7 @@ public class BeaconListner extends Service {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
+
+
 }
