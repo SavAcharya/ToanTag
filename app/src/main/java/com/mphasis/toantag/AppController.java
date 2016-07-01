@@ -34,13 +34,18 @@ public class AppController extends Application {
         mInstance = this;
     }
 
+
     public static synchronized AppController getInstance() {
+
+        if (null == mInstance) {
+            mInstance = new AppController();
+        }
         return mInstance;
     }
 
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
-            mRequestQueue = Volley.newRequestQueue(getApplicationContext());
+            mRequestQueue = Volley.newRequestQueue(this);
         }
 
         return mRequestQueue;
@@ -55,7 +60,7 @@ public class AppController extends Application {
         return this.mImageLoader;
     }*/
 
-    public <T> void addToRequestQueue(Request<T> req, String tag) {
+    public <T> void addToRequestQueue(Context context, Request<T> req, String tag) {
         // set the default tag if tag is empty
         req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
         getRequestQueue().add(req);

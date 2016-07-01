@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ToanTag</string>
+    <string name="app_name">ToneTag</string>
     <string name="ok">OK</string>
     <string name="contacts_string">Total number of contacts: %1$,d\nFirst contact:<b>%2$s</b></string>
     <string name="contacts_none">No contacts stored on device.</string>
@@ -22,5 +22,9 @@
     <string name="enterIP">Enter URL</string>
     <string name="enterPort">Port No</string>
     <string name="save">Save</string>
+
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -34,7 +33,8 @@ public class MainActivity extends AppCompatActivity implements  ActivityCompat.O
     private Button btnSave;
     private EditText edtPort;
     private EditText edtIP;
-
+String ip;
+    String port;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,18 @@ public class MainActivity extends AppCompatActivity implements  ActivityCompat.O
         edtIP= (EditText) findViewById(R.id.edtIP);
         edtPort= (EditText) findViewById(R.id.edtPort);
 
+        ip=AppController.getPreference(MainActivity.this,AppConstant.PREF_IP);
+        if (ip==null){
+            ip=AppConstant.IP;
 
+        }
+        port=AppController.getPreference(MainActivity.this,AppConstant.PREF_PORT);
+        if (port==null){
+            port=AppConstant.PORT;
+
+        }
+        edtIP.setText(ip);
+        edtPort.setText(port);
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,14 +127,14 @@ public class MainActivity extends AppCompatActivity implements  ActivityCompat.O
     public void onPause() {
         super.onPause();
         unregisterReceiver(broadcastReceiver);
-        stopService(intent);
+       // stopService(intent);
     }
 
     private void printLog(Intent intent) {
         String counter = intent.getStringExtra("counter");
         String time = intent.getStringExtra("time");
-        Log.d(TAG, counter);
-        Log.d(TAG, time);
+       /* Log.d(TAG, counter);
+        Log.d(TAG, time);*/
 
         
     }

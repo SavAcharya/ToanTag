@@ -18,12 +18,14 @@ public class AppConstant {
     public static final String IP="http://0.0.0";
     public static final String PORT="800";
 
-    public static final String USER_ID="/D20M1/";
+    public static final String USER_ID="/1234/";
 
 
     public static final String BECAN_REGISTER="0001";
     public static final String BECAN_1="0002";
     public static final String BECAN_2="0003";
+
+    public static final String SERVER_OK= "Acknowledged";
 
 
 }
